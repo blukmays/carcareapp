@@ -1,35 +1,59 @@
 import React, { Component } from 'react'
 import { ListGroup, ListGroupItem } from 'mdbreact'
+import axios from 'axios';
+
+//
+//
+// https://www.yelp.com/developers/graphql/query/search
+//
+//
 
 class Maintenance extends Component {
-    render () {
+
+    state = {
+
+        results: []
+
+    }
+
+    componentDidMount() {
+
+        axios.get(`http://localhost:8080/api/maintenance`).then(res => {
+
+            const results = res.data.search.business;
+
+            console.log(results);
+
+            this.setState({ results });
+
+        })
+
+    }
+
+    render() {
         return (
             <div>
                 <ListGroup>
-                    <ListGroupItem href="#" hover><h1>Red Rock Auto Repair</h1>
-                        <p>
-                        2334 S Main St
-                        Salt Lake City, UT 84115
-                        City of South Salt Lake</p>
-                    </ListGroupItem>
-                    <ListGroupItem href="#" hover><h1>Autograff Motor Works</h1>
-                    <p1>
-                        50 West 700 S
-                        Salt Lake City, UT 84101
-                        Downtown, Peoples Freeway, Salt Lake City</p1>
-                    </ListGroupItem>
-                    <ListGroupItem href="#" hover><h1>The Automotive Back Shop</h1><p1>3105 W 3500th S
-                        Salt Lake City, UT 84119</p1>
-                    </ListGroupItem>
-                    <ListGroupItem href="#" hover><h1>Jones Complete Car Care</h1>
-                        <p1>4621 S 900th E
-                            Salt Lake City, UT 84117</p1>
-                    </ListGroupItem>
+
+                    {this.state.results.map(result => (
+
+
+                        <ListGroupItem href="#" hover>
+
+                            <h1>{result.name}</h1>
+
+                            <p>
+
+                                {result.location.address1}<br />{result.location.city}, {result.location.state} <br />
+
+                            </p>
+
+                        </ListGroupItem>
+
+
+                    ))}
 
                 </ListGroup>
-
-
-
 
             </div>
         )

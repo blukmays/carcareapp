@@ -119,7 +119,7 @@
 // )
 
 
-import React, {Component, Fragment} from 'react'
+import React, { Component, Fragment } from 'react'
 import ReactDOM from 'react-dom'
 import {
     NavLink,
@@ -141,18 +141,53 @@ import Navbar from './components/navbar'
 import Maintenance from "./components/Maintenance";
 import Body from "./components/Body";
 import Tires from "./components/Tires";
+import { createHttpLink } from 'apollo-link-http';
+import { setContext } from 'apollo-link-context';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+// https://www.yelp.com/developers/graphql/guides/intro
+// https://www.yelp.com/developers/graphiql
+// https://www.yelp.com/developers/documentation/v3/business_search
+//
 
+const httpLink = createHttpLink({
 
+    uri: "https://api.yelp.com/v3/graphql",
+    credentials: 'IpiYNfe1WB0D8oTHRSyPExBDa8wbY8iEjwzOG_9dYNOADoDFH5SsgBBmbJ-tWjoZKy3ytYOcOzFajQGwNRNF3S30C67pwP7c-T4SspjI_cOTeBpe6hsHt8jqzPTbWnYx'
 
-const client = new ApolloClient({ uri: 'http://localhost:4000' })
+});
 
+const authLink = setContext((_, { headers }) => {
+
+    const token = process.env.YELP_API_CLIENT_KEY;
+
+    // return the headers to the context so httpLink can read them
+    return {
+
+        headers: {
+            ...headers,
+            authorization: token ? `Bearer IpiYNfe1WB0D8oTHRSyPExBDa8wbY8iEjwzOG_9dYNOADoDFH5SsgBBmbJ-tWjoZKy3ytYOcOzFajQGwNRNF3S30C67pwP7c-T4SspjI_cOTeBpe6hsHt8jqzPTbWnYx` : "",
+
+        }
+
+    }
+
+});
+
+const client = new ApolloClient({
+
+    uri: "https://api.yelp.com/v3/graphql",
+
+    link: authLink.concat(httpLink),
+    cache: new InMemoryCache()
+
+});
 
 
 ReactDOM.render(
     <ApolloProvider client={client}>
         <Router>
             <Fragment>
-          <Navbar/>
+                <Navbar />
                 <nav className="pa3 pa4-ns">
                     <Link
                         className="link dim black b f6 f5-ns dib mr3"
@@ -187,11 +222,11 @@ ReactDOM.render(
                     <Switch>
                         <Route exact path="/" component={Home} />
                         <Route path="/login" component={Login} />
-                        <Route path="/signup" component={Signup}/>
-                        <Route path="/aboutus" component={Aboutus}/>
+                        <Route path="/signup" component={Signup} />
+                        <Route path="/aboutus" component={Aboutus} />
                         <Route path="/maintenance" component={Maintenance} />
                         <Route path="/tires" component={Tires} />
-                        <Route path="/body" component={Body}/>
+                        <Route path="/body" component={Body} />
 
                     </Switch>
                 </div>

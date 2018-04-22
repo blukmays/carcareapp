@@ -1965,6 +1965,12 @@ graphql-request@^1.5.0:
   dependencies:
     cross-fetch "1.1.1"
 
+graphql-request@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/graphql-request/-/graphql-request-1.5.1.tgz#cccdf5cce6432ca062b90f7b63793c77c821ff9a"
+  dependencies:
+    cross-fetch "2.0.0"
+
 graphql-schema-linter@0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/graphql-schema-linter/-/graphql-schema-linter-0.1.1.tgz#bca091db7c075935764cc798377420dcebc93191"
