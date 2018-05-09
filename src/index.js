@@ -119,30 +119,13 @@
 // )
 
 
-import React, {Component, Fragment} from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
-import {
-    NavLink,
-    Link,
-    BrowserRouter as Router,
-    Route,
-    Switch,
-} from 'react-router-dom'
 import { ApolloProvider } from 'react-apollo'
 import ApolloClient from 'apollo-boost'
-import Login from './components/Login.js'
-import Home from './components/Home.js'
-import Signup from './components/Signup.js'
-import Aboutus from './components/Aboutus.js'
 import 'tachyons'
+import {MakeMainRoutes} from './routes'
 import './index.css'
-import { NavbarBrand, NavbarNav, NavbarToggler, Collapse, NavItem, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'mdbreact';
-import Navbar from './components/navbar'
-import Maintenance from "./components/Maintenance";
-import Body from "./components/Body";
-import Tires from "./components/Tires";
-
-
 
 const client = new ApolloClient({ uri: 'http://localhost:4000' })
 
@@ -150,60 +133,7 @@ const client = new ApolloClient({ uri: 'http://localhost:4000' })
 
 ReactDOM.render(
     <ApolloProvider client={client}>
-        <Router>
-            <Fragment>
-          <Navbar/>
-                <nav className="pa3 pa4-ns">
-                    <Link
-                        className="link dim black b f6 f5-ns dib mr3"
-                        to="/login"
-                        title="Login"
-                    >
-                        Login
-                    </Link>
-                    <NavLink
-                        className="link dim f6 f5-ns dib mr3 black"
-                        activeClassName="gray"
-                        exact={true}
-                        to="/signup"
-                        title="Signup"
-                    >
-                        Sign Up
-                    </NavLink>
-                    <NavLink
-                        className="link dim f6 f5-ns dib mr3 black"
-                        activeClassName="gray"
-                        exact={true}
-                        to="/aboutus"
-                        title="About Us"
-                    >
-                        About Us
-                    </NavLink>
-
-
-
-                </nav>
-                <div className="fl w-100 pl4 pr4">
-                    <Switch>
-                        <Route exact path="/" component={Home} />
-                        <Route path="/login" component={Login} />
-                        <Route path="/signup" component={Signup}/>
-                        <Route path="/aboutus" component={Aboutus}/>
-                        <Route path="/maintenance" component={Maintenance} />
-                        <Route path="/tires" component={Tires} />
-                        <Route path="/body" component={Body}/>
-
-                    </Switch>
-                </div>
-            </Fragment>
-
-
-
-
-
-
-
-        </Router>
+        <MakeMainRoutes/>
     </ApolloProvider>,
     document.getElementById('root'),
 )
